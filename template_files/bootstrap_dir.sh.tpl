@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ## Use this when you reired to Using same AWS EFS to share multiple directories  >> 
+
 echo "EFS Drive should be mounted to the machine at perticluter location {/path/path....} "
 ## create folder location if rqeired 
 sudo mkdir -p /var/media/
