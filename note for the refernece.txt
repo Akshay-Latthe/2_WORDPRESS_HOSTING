@@ -1,0 +1,33 @@
+route table deatils ::
+public : 0.0.0.0/0 route to internet getway 
+privet : to nat getway  in public subnet 
+bd subnet :  to nat getway  in public subnet 
+vpc == attach to internetwetway 
+1)public-sg :ports : 22 and 
+2)privet ec2 wordperss -sg ports :1) port 22 allow only form public-sg 
+		       2)port  80  with allow "alb-sg" for this :  (which is create in alb loadbalancer )
+
+3) alb sg for this :1) port 80   >> reiester your wordperss ec2 with alb 
+   check taeget groups >> ec2i helty state / and ec2 are assigned 
+
+4) rds ec2 : port 22 
+	     port 3306  == with privet ec2 wordperss-sg / remove default 
+
+
+error in load balancer ec2 assoication to alb >> unhelty 
+
+
+
+#data "aws_availability_zones" "available" {}
+## 1) VPC  ===================================================================================
+
+##https://josephomara.com/2022/06/24/terraform-to-deploy-wordpress-with-an-alb-asg-and-efs/
+
+
+## https://www.hiveit.co.uk/techshop/terraform-aws-vpc-example/03-create-an-rds-db-instance
+
+## *VIPM ## https://harshitdawar.medium.com/launching-a-vpc-with-public-private-subnet-in-aws-using-terraform-191188e6cad4
+
+## https://medium.com/aws-in-plain-english/terraform-aws-three-tier-architecture-design-d2ed61d7ec4a
+
+## https://harshitdawar.medium.com/launching-a-vpc-with-public-private-subnet-in-aws-using-terraform-191188e6cad4
