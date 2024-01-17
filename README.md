@@ -32,11 +32,11 @@ In this tutorial, I will deploy a three-tier application in AWS using Terraform.
 
 > In this project, I have used some variables also that I will discuss later in this article.
 
-**Step 1: - Clone the git repository   
+**Step 1: - Clone the git repository**   
 
 **Step 2:-  Go to packer directory and in that  app2.sh file and  aws-debion.pkr.hcl as per Git repo**
 
-    **We use this to Create AMI of the Wordpress on AWS EC2. This AMI we are using in the Autosacling group.**
+    * We use this to Create AMI of the Wordpress on AWS EC2. This AMI we are using in the Autosacling group. *
 
 ## steps:
 
@@ -44,7 +44,7 @@ In this tutorial, I will deploy a three-tier application in AWS using Terraform.
 * 2) "app2.hcl" is shell script used for aws-debion.pkr.hcl file in build which will run on aws EC2 instance 
 
 ### RUN This command in packer directory
-packer build aws-debion.pkr.hcl
+    ** "packer build aws-debion.pkr.hcl" **
 
 ***Copy the AMI ID FORM CONSOLE use that AMI in following Autoscaling Group Terraform Code  AMI ID ***
 AWS AMI is get created on your AWS account
@@ -52,7 +52,7 @@ or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terrafor
 
 #AMI ID LOOK LIKE THIS "ami-0814cfadf25b13f"
 
-**Step 2:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
+**Step 3:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
 
 *The 1_vpc_&_keypair.tf file content VPC , SUBNETES, INTERNET GETWAY, ELASTIC IP , NAT GETWAYES,  ROUTE TABLES Terraform Code IN THE THIS FILE 
 
@@ -86,10 +86,12 @@ or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terrafor
 
 
 So, now our entire code is ready. We need to run the below steps to create infrastructure.
-
-* terraform init is to initialize the working directory and downloading plugins of the provider
-* terraform plan is to create the execution plan for our code
-* terraform apply is to create the actual infrastructure. It will ask you to provide the Access Key and Secret Key in order to create the infrastructure. So, instead of hardcoding the Access Key and Secret Key, it is better to apply at the run time.
+## steps: 
+* go to the 2_WORDPRESS_HOSTING directory
+## RUN Follwing commands: 
+* "terraform init" is to initialize the working directory and downloading plugins of the provider
+* "terraform plan" is to create the execution plan for our code
+* "terraform apply" is to create the actual infrastructure. It will ask you to provide the Access Key and Secret Key in order to create the infrastructure. So, instead of hardcoding the Access Key and Secret Key, it is better to apply at the run time.
 
 
 **Step 4:- Verify the resources**
@@ -111,8 +113,8 @@ So, now our entire code is ready. We need to run the below steps to create infra
   * Route53 and ACM with DNS for "domain name"
 
 
+** Step 5:- Verify DNS is workig ON incognito mode MODE"**
 
-*** Step 5:- Verify DNS is workig ON incognito mode MODE" 
 Once the resource creation finishes you can get the DNS  in AWS ACCOUNT ON ROUTE53 ACCESS THAT "
 
 That’s it now, you have learned how to create various resources in AWS using Terraform.
