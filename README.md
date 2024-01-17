@@ -7,18 +7,19 @@ We need to setup following: VPC with two public, two private and two database
 5.	In order to access WordPress you need to use AWS ALB deployed into public subnet
 6.  Use redis is used for ealstic cashe of RDS
 
-
 # How to deploy a three-tier architecture in AWS using Terraform?
 
 ### What is Terraform?
 
 Terraform is an open-source infrastructure as a code (IAC) tool that allows to create, manage & deploy the production-ready environment. Terraform codifies cloud APIs into declarative configuration files. Terraform can manage both existing service providers and custom in-house solutions.
 
-![1](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/blob/main/1.png)
+![1](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/docks/1.png)
+
+
 
 In this tutorial, I will deploy a three-tier application in AWS using Terraform.
 
-![2](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/blob/main/2.png)
+![2](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/docks/2.png)
 
 ### Prerequisites:
 
