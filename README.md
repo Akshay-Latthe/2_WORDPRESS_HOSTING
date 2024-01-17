@@ -1,11 +1,11 @@
-Requirements  are as follows:
-We need to setup the following: VPC with two public, two private and two database
-1.	Setup one EC2 instances in private subnet. Install WordPress in the location /var/www/html  with auto scaling and load balancing
-2.	And EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads
-3.	One Aurora MySQL should be deployed into db private subnet and WordPress needs to use that database. 
-4.	WordPress EC2 should be in auto scaling group with one AMI
-5.	In order to access WordPress you need to use AWS ALB deployed into public subnet
-6.  Use redis is used for elastic cashe of RDS
+# Requirements  are as follows:
+## We need to setup the following: VPC with two public, two private and two database
+## 1.	Setup one EC2 instances in private subnet. Install WordPress in the location /var/www/html  with auto scaling and load balancing
+## 2.	And EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads
+## 3.	One Aurora MySQL should be deployed into db private subnet and WordPress needs to use that database. 
+## 4.	WordPress EC2 should be in auto scaling group with one AMI
+## 5.	In order to access WordPress you need to use AWS ALB deployed into public subnet
+## 6.  Use redis is used for elastic cashe of RDS
 
 # How to deploy a three-tier architecture in AWS using Terraform?
 
@@ -16,7 +16,7 @@ Terraform is an open-source infrastructure as a code (IAC) tool that allows to c
 ![1](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/1.png)
 
 
-In this tutorial, I will deploy a three-tier application in AWS using Terraform.
+## In this tutorial, I will deploy a three-tier application in AWS using Terraform Architecture looks like blow.
 
 ![2](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/2.png)
 
