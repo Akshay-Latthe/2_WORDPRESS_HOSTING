@@ -1,11 +1,11 @@
-Requirements  are as below :
-We need to setup following: VPC with two public, two private and two database
-1.	Setup one EC2 instance in private subnet. Install WordPress in the location /var/www/html  with auto scaling and load balancing
+Requirements  are as follows:
+We need to setup the following: VPC with two public, two private and two database
+1.	Setup one EC2 instances in private subnet. Install WordPress in the location /var/www/html  with auto scaling and load balancing
 2.	And EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads
 3.	One Aurora MySQL should be deployed into db private subnet and WordPress needs to use that database. 
 4.	WordPress EC2 should be in auto scaling group with one AMI
 5.	In order to access WordPress you need to use AWS ALB deployed into public subnet
-6.  Use redis is used for ealstic cashe of RDS
+6.  Use redis is used for elastic cashe of RDS
 
 # How to deploy a three-tier architecture in AWS using Terraform?
 
@@ -16,397 +16,74 @@ Terraform is an open-source infrastructure as a code (IAC) tool that allows to c
 ![1](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/1.png)
 
 
-
 In this tutorial, I will deploy a three-tier application in AWS using Terraform.
 
 ![2](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/2.png)
 
 ### Prerequisites:
 
-* Basic knowledge of AWS & Terraform
+* Basic knowledge of AWS & Terraform & packer 
 * AWS account
 * AWS Access & Secret Key
+### Installation Prerequisites :
+
+* AWS cli is installed and configured with aws account
+* Terraform installed and configured
 
 > In this project, I have used some variables also that I will discuss later in this article.
 
-**Step 1:- Create a file for the VPC**
+**Step 1: - Clone the git repository   
 
-* Create vpc.tf file and add the below code to it
+**Step 2:-  Go to packer directory and in that  app2.sh file and  aws-debion.pkr.hcl as per Git repo**
 
-  ```
-  # Creating VPC
-  resource "aws_vpc" "demovpc" {
-    cidr_block       = "${var.vpc_cidr}"
-    instance_tenancy = "default"
-  tags = {
-    Name = "Demo VPC"
-  }
-  }
-  ```
-  
-**Step 2:- Create a file for the Subnet**
+    **We use this to Create AMI of the Wordpress on AWS EC2. This AMI we are using in the Autosacling group.**
 
-* For this project, I will create total 6 subnets for the front-end tier and back-end tier with a mixture of public & private subnet
-* Create subnet.tf file and add the below code to it
+## steps:
 
-  ```
-  # Creating 1st web subnet 
-  resource "aws_subnet" "public-subnet-1" {
-    vpc_id                  = "${aws_vpc.demovpc.id}"
-    cidr_block             = "${var.subnet_cidr}"
-    map_public_ip_on_launch = true
-    availability_zone = "us-east-1a"
-  tags = {
-    Name = "Web Subnet 1"
-  }
-  }
-  # Creating 2nd web subnet 
-  resource "aws_subnet" "public-subnet-2" {
-    vpc_id                  = "${aws_vpc.demovpc.id}"
-    cidr_block             = "${var.subnet1_cidr}"
-    map_public_ip_on_launch = true
-    availability_zone = "us-east-1b"
-  tags = {
-    Name = "Web Subnet 2"
-  }
-  }
-  # Creating 1st application subnet 
-  resource "aws_subnet" "application-subnet-1" {
-    vpc_id                  = "${aws_vpc.demovpc.id}"
-    cidr_block             = "${var.subnet2_cidr}"
-    map_public_ip_on_launch = false
-    availability_zone = "us-east-1a"
-  tags = {
-    Name = "Application Subnet 1"
-  }
-  }
-  # Creating 2nd application subnet 
-  resource "aws_subnet" "application-subnet-2" {
-    vpc_id                  = "${aws_vpc.demovpc.id}"
-    cidr_block             = "${var.subnet3_cidr}"
-    map_public_ip_on_launch = false
-    availability_zone = "us-east-1b"
-  tags = {
-    Name = "Application Subnet 2"
-  }
-  }
-  # Create Database Private Subnet
-  resource "aws_subnet" "database-subnet-1" {
-    vpc_id            = "${aws_vpc.demovpc.id}"
-    cidr_block        = "${var.subnet4_cidr}"
-    availability_zone = "us-east-1a"
-  tags = {
-    Name = "Database Subnet 1"
-  }
-  }
-  # Create Database Private Subnet
-  resource "aws_subnet" "database-subnet-2" {
-    vpc_id            = "${aws_vpc.demovpc.id}"
-    cidr_block        = "${var.subnet5_cidr}"
-    availability_zone = "us-east-1a"
-  tags = {
-    Name = "Database Subnet 1"
-  }
-  }
-  ```
-  
-**Step 3:- Create a file for the Internet Gateway**
+* 1) aws-debion.pkr.hcl file content variables, required_plugins, locals, source, build blocks for AMI creation.
+* 2) "app2.hcl" is shell script used for aws-debion.pkr.hcl file in build which will run on aws EC2 instance 
 
-* Create igw.tf file and add the below code to it
+### RUN This command in packer directory
+packer build aws-debion.pkr.hcl
 
-  ```
-  # Creating Internet Gateway 
-  resource "aws_internet_gateway" "demogateway" {
-    vpc_id = "${aws_vpc.demovpc.id}"
-  }
-  ```
+***Copy the AMI ID FORM CONSOLE use that AMI in following Autoscaling Group Terraform Code  AMI ID ***
+AWS AMI is get created on your AWS account
+or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terraform Code  AMI ID. 
 
-**Step 4:- Create a file for the Route table**
+#AMI ID LOOK LIKE THIS "ami-0814cfadf25b13f"
 
-* Create route_table_public.tf file and add the below code to it
+**Step 2:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
 
-  ```
-  # Creating Route Table
-  resource "aws_route_table" "route" {
-    vpc_id = "${aws_vpc.demovpc.id}"
-  route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = "${aws_internet_gateway.demogateway.id}"
-    }
-  tags = {
-        Name = "Route to internet"
-    }
-  }
-  # Associating Route Table
-  resource "aws_route_table_association" "rt1" {
-    subnet_id = "${aws_subnet.demosubnet.id}"
-    route_table_id = "${aws_route_table.route.id}"
-  }
-  # Associating Route Table
-  resource "aws_route_table_association" "rt2" {
-    subnet_id = "${aws_subnet.demosubnet1.id}"
-    route_table_id = "${aws_route_table.route.id}"
-  }
-  ```
-* In the above code, I am creating a new route table and forwarding all the requests to the 0.0.0.0/0 CIDR block.
-* I am also attaching this route table to the subnet created earlier. So, it will work as the Public Subnet
+* *  The 1_vpc_&_keypair.tf file content VPC , SUBNETES, INTERNET GETWAY, ELASTIC IP , NAT GETWAYES,  ROUTE TABLES Terraform Code IN THE THIS FILE * *
 
-**Step 5:- Create a file for EC2 instances**
+* *  The 1.1_securityG.tf file content all required security groups Terraform Code in this  FILE * * 
 
-* Create ec2.tf file and add the below code to it
+* *  The 1.2_bh_ec2.tf file content all required security groups Terraform Code in this  FILE * *
 
-  ```
-  # Creating 1st EC2 instance in Public Subnet
-  resource "aws_instance" "demoinstance" {
-    ami                         = "ami-087c17d1fe0178315"
-    instance_type               = "t2.micro"
-    count                       = 1
-    key_name                    = "tests"
-    vpc_security_group_ids      = ["${aws_security_group.demosg.id}"]
-    subnet_id                   = "${aws_subnet.demoinstance.id}"
-    associate_public_ip_address = true
-    user_data                   = "${file("data.sh")}"
-  tags = {
-    Name = "My Public Instance"
-  }
-  }
-  # Creating 2nd EC2 instance in Public Subnet
-  resource "aws_instance" "demoinstance1" {
-    ami                         = "ami-087c17d1fe0178315"
-    instance_type               = "t2.micro"
-    count                       = 1
-    key_name                    = "tests"
-    vpc_security_group_ids      = ["${aws_security_group.demosg.id}"]
-    subnet_id                   = "${aws_subnet.demoinstance.id}"
-    associate_public_ip_address = true
-    user_data                   = "${file("data.sh")}"
-  tags = {
-    Name = "My Public Instance 2"
-  }
-  }
-  ```
+* *  The 1.3_alb.tf file content Application Load Balancer Terraform Code in this  FILE * * 
 
-* I have used the userdata to configure the EC2 instance, I will discuss data.sh file later in the article
+* *  The 1.4_efs.tf file content EFS STORAGE AND MOUNT POINTS OF EFS STORAGE Terraform Code in this  FILE * * 
 
-**Step 6:- Create a file for Security Group for the FrontEnd tier**
+* *  The 1.4.1_ec2-wp.tf file content  'Launch Template' for AUTOSCALING GROUP WITH Abouv "AMI ID" and  script in the file location "template_files/bootstrap_wp.tpl"  in this  FILE  is used * * 
 
-* Create web_sg.tf file and add the below code to it
+       ** bootstrap_wp.tpl file content the script to attache EFS storage for every new instance in auto scaling group and attach the AWS AI of wordperess with RDS BD with cridentiles of DB** 
 
-  ```
-  # Creating Security Group 
-  resource "aws_security_group" "demosg" {
-    vpc_id = "${aws_vpc.demovpc.id}"
-  # Inbound Rules
-  # HTTP access from anywhere
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  # HTTPS access from anywhere
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  # SSH access from anywhere
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  # Outbound Rules
-  # Internet access to anywhere
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name = "Web SG"
-  }
-  }
-  ```
+* * The 1.5_wp_autoscaling.tf content  AUTO SCALING GROUP AND  AUTO SCALINGPOLICIES Terraform Code in this  FILE * * 
 
-* I have opened 80,443 & 22 ports for the inbound connection and I have opened all the ports for the outbound connection
+* * The 1.6_acmcif_&_route53.tf content  ACM CERTIFICATE AND ROUTE53 WITH "A" NAME RECORD "DNS" Terraform Code in this  FILE * * 
 
-**Step 7:- Create a file for Security Group for the Database tier**
+* * The 1.7_rds_new.tf  RDS Aurora DB cluster Terraform Code in this  FILE * * 
 
-* Create database_sg.tf file and add the below code to it
+* * The 1.8_redis.tf REDIS ELASTIC CASHES IS attached to RDS by Terraform Code in this  FILE * * 
 
-  ```
-  # Create Database Security Group
-  resource "aws_security_group" "database-sg" {
-    name        = "Database SG"
-    description = "Allow inbound traffic from application layer"
-    vpc_id      = aws_vpc.demovpc.id
-  ingress {
-    description     = "Allow traffic from application layer"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [aws_security_group.demosg.id]
-  }
-  egress {
-    from_port   = 32768
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name = "Database SG"
-  }
-  }
-  ```
-* I have opened 3306 ports for the inbound connection and I have opened all the ports for the outbound connection.
+* * config.tf conatent Terraform code for terraform configuration* *
 
-**Step 8:- Create a file Application Load Balancer**
+* * output.tf conatent Terraform code for terraform OUTPUTS form all above infra created * * 
 
-* Create alb.tf file and add the below code to it
+* * terraform.tfvars conatent ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALLY for all above infra  we are creating * * 
 
-  ```
-  # Creating External LoadBalancer
-  resource "aws_lb" "external-alb" {
-    name               = "External LB"
-    internal           = false
-    load_balancer_type = "application"
-    security_groups    = [aws_security_group.demosg.id]
-    subnets            = [aws_subnet.public-subnet-1.id, aws_subnet.public-subnet-1.id]
-  }
-  resource "aws_lb_target_group" "target-elb" {
-    name     = "ALB TG"
-    port     = 80
-    protocol = "HTTP"
-    vpc_id   = aws_vpc.demovpc.id
-  }
-  resource "aws_lb_target_group_attachment" "attachment" {
-    target_group_arn = aws_lb_target_group.external-alb.arn
-    target_id        = aws_instance.demoinstance.id
-    port             = 80
-  depends_on = [
-    aws_instance.demoinstance,
-  ]
-  }
-  resource "aws_lb_target_group_attachment" "attachment" {
-    target_group_arn = aws_lb_target_group.external-alb.arn
-    target_id        = aws_instance.demoinstance1.id
-    port             = 80
-  depends_on = [
-    aws_instance.demoinstance1,
-  ]
-  }
-  resource "aws_lb_listener" "external-elb" {
-    load_balancer_arn = aws_lb.external-alb.arn
-    port              = "80"
-    protocol          = "HTTP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.external-alb.arn
-  }
-  }
-  ```
-* The above load balancer is of type external
-* Load balancer type is set to application
-* The aws_lb_target_group_attachment resource will attach our instances to the Target Group.
-* The load balancer will listen requests on port 80
+* * vars.tf   ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALY for all above infra  we are creating * * 
 
-**Step 9:- Create a file for the RDS instance**
-
-* Create a rds.tf file and add the below code to it
-
-  ```
-  # Creating RDS Instance
-  resource "aws_db_subnet_group" "default" {
-    name       = "main"
-    subnet_ids = [aws_subnet.database-subnet-1.id, aws_subnet.database-subnet-1.id]
-  tags = {
-    Name = "My DB subnet group"
-  }
-  }
-  resource "aws_db_instance" "default" {
-    allocated_storage      = 10
-    db_subnet_group_name   = aws_db_subnet_group.default.id
-    engine                 = "mysql"
-    engine_version         = "8.0.20"
-    instance_class         = "db.t2.micro"
-    multi_az               = true
-    name                   = "mydb"
-    username               = "username"
-    password               = "password"
-    skip_final_snapshot    = true
-    vpc_security_group_ids = [aws_security_group.database-sg.id]
-  }
-  ```
-* In the above code, you need to change the value of username & password
-* multi-az is set to true for the high availability
-
-**Step 10:- Create a file for outputs**
-
-* Create outputs.tf file and add the below code to it
-
-  ```
-  # Getting the DNS of load balancer
-  output "lb_dns_name" {
-    description = "The DNS name of the load balancer"
-    value       = "${aws_lb.external-alb.dns_name}"
-  }
-  ```
-  
-* From the above code, I will get the DNS of the application load balancer.
-
-**Step 11:- Create a file for variable**
-
-* Create vars.tf file and add the below code to it
-
-  ```
-  # Defining CIDR Block for VPC
-  variable "vpc_cidr" {
-    default = "10.0.0.0/16"
-  }
-  # Defining CIDR Block for 1st Subnet
-  variable "subnet_cidr" {
-    default = "10.0.1.0/24"
-  }
-  # Defining CIDR Block for 2nd Subnet
-  variable "subnet1_cidr" {
-    default = "10.0.2.0/24"
-  }
-  # Defining CIDR Block for 3rd Subnet
-  variable "subnet2_cidr" {
-    default = "10.0.3.0/24"
-  }
-  # Defining CIDR Block for 3rd Subnet
-  variable "subnet2_cidr" {
-    default = "10.0.4.0/24"
-  }
-  # Defining CIDR Block for 3rd Subnet
-  variable "subnet2_cidr" {
-    default = "10.0.5.0/24"
-  }
-  # Defining CIDR Block for 3rd Subnet
-  variable "subnet2_cidr" {
-    default = "10.0.6.0/24" 
-  }
-  ```
-
-**Step 12:- Create a file for user data**
-
-* Create data.sh file and add the below code to it
-
-  ```
-  #!/bin/bash
-  yum update -y
-  yum install -y httpd.x86_64
-  systemctl start httpd.service
-  systemctl enable httpd.service
-  echo "Hello World from $(hostname -f)" > /var/www/html/index.html
-  ```
-  
-* The above code will install an apache webserver in the EC2 instances
 
 So, now our entire code is ready. We need to run the below steps to create infrastructure.
 
@@ -415,22 +92,27 @@ So, now our entire code is ready. We need to run the below steps to create infra
 * terraform apply is to create the actual infrastructure. It will ask you to provide the Access Key and Secret Key in order to create the infrastructure. So, instead of hardcoding the Access Key and Secret Key, it is better to apply at the run time.
 
 
-**Step 13:- Verify the resources**
+**Step 4:- Verify the resources**
 
 * Terraform will create below resources
 
   * VPC
-  * Application Load Balancer
-  * Public & Private Subnets
-  * EC2 instances
-  * RDS instance
+  * Public Subnets, Private Subnets, RDS Subnets
   * Route Table
   * Internet Gateway
+  * Route Table Association
   * Security Groups for Web & RDS instances
-  * Route Table
+  * Basstion Host EC2
+  * EFS Storage
+  * Application Load Balancer with target group
+  * EC2 instances for autoscalig 
+  * RDS instance 
+  * Redis Cache instances are created 
+  * Route53 and ACM with DNS for "domain name"
 
-Once the resource creation finishes you can get the DNS of a load balancer and paste it into the browser and you can see load balancer will send the request to two instances.
+
+
+*** Step 5:- Verify DNS is workig ON incognito mode MODE" 
+Once the resource creation finishes you can get the DNS  in AWS ACCOUNT ON ROUTE53 ACCESS THAT "
 
 That’s it now, you have learned how to create various resources in AWS using Terraform.
-
- 
