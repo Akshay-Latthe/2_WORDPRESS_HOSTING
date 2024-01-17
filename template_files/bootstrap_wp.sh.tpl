@@ -1,5 +1,5 @@
 #!/bin/bash -x
-
+##CODITION 1)EFS Drive should be mounted to the machine at perticluter sigle directori/location /path/path....
 echo "EFS Drive should be mounted to the machine at perticluter location {/path/path....} "
 
 sleep 120
