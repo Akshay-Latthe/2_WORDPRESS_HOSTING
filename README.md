@@ -50,7 +50,8 @@ Terraform is an open-source infrastructure as a code (IAC) tool that allows to c
 AWS AMI is get created on your AWS account
 or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terraform Code  AMI ID. 
 
-#AMI ID LOOK LIKE THIS "ami-0814cfadf25b13f"
+### AMI ID LOOK LIKE THIS 
+  ** "ami-0814cfadf25b13f" **
 
 **Step 3:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
 
