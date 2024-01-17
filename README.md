@@ -54,35 +54,35 @@ or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terrafor
 
 **Step 2:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
 
-* *  The 1_vpc_&_keypair.tf file content VPC , SUBNETES, INTERNET GETWAY, ELASTIC IP , NAT GETWAYES,  ROUTE TABLES Terraform Code IN THE THIS FILE * *
+*The 1_vpc_&_keypair.tf file content VPC , SUBNETES, INTERNET GETWAY, ELASTIC IP , NAT GETWAYES,  ROUTE TABLES Terraform Code IN THE THIS FILE 
 
-* *  The 1.1_securityG.tf file content all required security groups Terraform Code in this  FILE * * 
+* The 1.1_securityG.tf file content all required security groups Terraform Code in this  FILE 
 
-* *  The 1.2_bh_ec2.tf file content all required security groups Terraform Code in this  FILE * *
+* The 1.2_bh_ec2.tf file content all required security groups Terraform Code in this  FILE 
 
-* *  The 1.3_alb.tf file content Application Load Balancer Terraform Code in this  FILE * * 
+* The 1.3_alb.tf file content Application Load Balancer Terraform Code in this  FILE 
 
-* *  The 1.4_efs.tf file content EFS STORAGE AND MOUNT POINTS OF EFS STORAGE Terraform Code in this  FILE * * 
+* The 1.4_efs.tf file content EFS STORAGE AND MOUNT POINTS OF EFS STORAGE Terraform Code in this  FILE  
 
-* *  The 1.4.1_ec2-wp.tf file content  'Launch Template' for AUTOSCALING GROUP WITH Abouv "AMI ID" and  script in the file location "template_files/bootstrap_wp.tpl"  in this  FILE  is used * * 
+* The 1.4.1_ec2-wp.tf file content  'Launch Template' for AUTOSCALING GROUP WITH Abouv "AMI ID" and  script in the file location "template_files/bootstrap_wp.tpl"  in this  FILE  is used 
 
-       ** bootstrap_wp.tpl file content the script to attache EFS storage for every new instance in auto scaling group and attach the AWS AI of wordperess with RDS BD with cridentiles of DB** 
+       * bootstrap_wp.tpl file content the script to attache EFS storage for every new instance in auto scaling group and attach the AWS AI of wordperess with RDS BD with cridentiles of DB 
 
-* * The 1.5_wp_autoscaling.tf content  AUTO SCALING GROUP AND  AUTO SCALINGPOLICIES Terraform Code in this  FILE * * 
+* The 1.5_wp_autoscaling.tf content  AUTO SCALING GROUP AND  AUTO SCALINGPOLICIES Terraform Code in this  FILE 
 
-* * The 1.6_acmcif_&_route53.tf content  ACM CERTIFICATE AND ROUTE53 WITH "A" NAME RECORD "DNS" Terraform Code in this  FILE * * 
+* The 1.6_acmcif_&_route53.tf content  ACM CERTIFICATE AND ROUTE53 WITH "A" NAME RECORD "DNS" Terraform Code in this  FILE  
 
-* * The 1.7_rds_new.tf  RDS Aurora DB cluster Terraform Code in this  FILE * * 
+* The 1.7_rds_new.tf  RDS Aurora DB cluster Terraform Code in this  FILE 
 
-* * The 1.8_redis.tf REDIS ELASTIC CASHES IS attached to RDS by Terraform Code in this  FILE * * 
+* The 1.8_redis.tf REDIS ELASTIC CASHES IS attached to RDS by Terraform Code in this  FILE 
 
-* * config.tf conatent Terraform code for terraform configuration* *
+* config.tf conatent Terraform code for terraform configuration
 
-* * output.tf conatent Terraform code for terraform OUTPUTS form all above infra created * * 
+* output.tf conatent Terraform code for terraform OUTPUTS form all above infra created 
 
-* * terraform.tfvars conatent ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALLY for all above infra  we are creating * * 
+* terraform.tfvars conatent ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALLY for all above infra  we are creating 
 
-* * vars.tf   ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALY for all above infra  we are creating * * 
+* vars.tf   ALL VARIABLES OF ALL ABOVE FILES IN SINGLE FILE WHICH WE CAN CHANGE DYNAMICALY for all above infra  we are creating  
 
 
 So, now our entire code is ready. We need to run the below steps to create infrastructure.
