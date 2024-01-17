@@ -13,13 +13,13 @@ We need to setup following: VPC with two public, two private and two database
 
 Terraform is an open-source infrastructure as a code (IAC) tool that allows to create, manage & deploy the production-ready environment. Terraform codifies cloud APIs into declarative configuration files. Terraform can manage both existing service providers and custom in-house solutions.
 
-![1](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/docks/1.png)
+![1](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/1.png)
 
 
 
 In this tutorial, I will deploy a three-tier application in AWS using Terraform.
 
-![2](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/docks/2.png)
+![2](https://github.com/Akshay-bl/2_WORDPRESS_HOSTING/blob/main/2.png)
 
 ### Prerequisites:
 
