@@ -33,7 +33,9 @@ Terraform is an open-source infrastructure as a code (IAC) tool that allows to c
 > In this project, I have used some variables also that I will discuss later in this article.
 
 **Step 1: - Clone the git repository**   
-===================================================================================================================
+
+===========================================================================
+
 **Step 2:-  Go to packer directory and in that  app2.sh file and  aws-debion.pkr.hcl as per Git repo**
 
     * We use this to Create AMI of the Wordpress on AWS EC2. This AMI we are using in the Autosacling group. *
@@ -53,7 +55,8 @@ or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terrafor
 ### AMI ID LOOK LIKE THIS 
   ** "ami-0814cfadf25b13f" **
 
-===================================================================================================================
+===========================================================================
+
 
 **Step 3:- Terraform files ".tf" in 2_WORDPRESS_HOSTING Directory**
 
@@ -96,7 +99,7 @@ So, now our entire code is ready. We need to run the below steps to create infra
 * "terraform plan" is to create the execution plan for our code
 * "terraform apply" is to create the actual infrastructure. It will ask you to provide the Access Key and Secret Key in order to create the infrastructure. So, instead of hardcoding the Access Key and Secret Key, it is better to apply at the run time.
 
-===================================================================================================================
+===========================================================================
 
 **Step 4:- Verify the resources**
 
@@ -116,7 +119,7 @@ So, now our entire code is ready. We need to run the below steps to create infra
   * Redis Cache instances are created 
   * Route53 and ACM with DNS for "domain name"
 
-===================================================================================================================
+===========================================================================
 
 ** Step 5:- Verify DNS is workig ON incognito mode MODE"**
 
