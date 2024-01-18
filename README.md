@@ -74,7 +74,7 @@ We have to use that AMI in Autoscaling Launch templete in Terraform Code file na
 
 * The 1.4.1_ec2-wp.tf file content  'Launch Template' for AUTOSCALING GROUP WITH Abouv "AMI ID" and  script in the file location "template_files/bootstrap_wp.tpl"  in this  FILE  is used 
 
-       * bootstrap_wp.tpl file content the script to attache EFS storage for every new instance in auto scaling group and attach the AWS AI of wordperess with RDS BD with cridentiles of DB 
+       * bootstrap_wp.tpl file content the script to attache EFS storage for every new instance in auto scaling group and attach the AWS AMI of wordperess with RDS BD with cridentiles of DB 
 
 * The 1.5_wp_autoscaling.tf content  AUTO SCALING GROUP AND  AUTO SCALINGPOLICIES Terraform Code in this  FILE 
 
