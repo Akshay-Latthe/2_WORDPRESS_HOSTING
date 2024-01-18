@@ -1,11 +1,28 @@
 # Requirements  are as follows:
-### We need to setup the following: VPC with two public, two private and two database
-### 1.	Setup one EC2 instances in private subnet. Install WordPress in the location /var/www/html  with auto scaling and load balancing
-### 2.	Auto scaling with EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads
-### 3.	One Aurora MySQL should be deployed into db private subnet and WordPress needs to use that database. 
-### 4.	WordPress EC2 should be in auto scaling group with one AMI
-### 5.	In order to access WordPress you need to use AWS ALB deployed into public subnet with DNS
-### 6.  Use redis is used for elastic cashe of RDS 
+### We need to setup the following: 
+### 1.  VPC with two public, two private and two database
+### 2.	Setup one EC2 instance in private subnet. Install Word Press in the location /var/www/html.
+### 3.	Word Press ec2 with load balancing and should be auto scaling.
+### 4.	And EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads.
+### 5.	One Aurora MySQL should be deployed into db private subnet and Word Press needs to use that database. 
+### 6.	Word Press EC2 should be in auto scaling group with one AMI.
+### 7.	In order to access Word Press you need to use AWS ALB deployed into public subnet.
+### 8.	AMI for word press auto scaling is created by packer.
+### 9.	Domain also we have to use for hosting word press web. By (route53, ssl certificate, hosted zone )
+
+## STEPS AS PER FOLLOWING:
+
+### 1)	VPC – NETWORKING two public, two private and two databases.
+### 2)	LADBALANCER – APPICATION 
+### 3)	PRIVET SUBNETS WITH EC2 WITH AUTOCASLIG 
+### 3.1) AMI for word press auto scaling is created by using packer and used for auto scaling group as AMI .
+### 3.2) AMI CREATED BY PACKER WITH WORDPRESS : wp-confing.php >> set db name , dbuser , dbpassword , db endpoint , elastic cashes endpoint. By shell script. 
+### 3.3) ALL EC2 will be have “/var/www/html/wp-content/” check it if is not presents “wp-content/uploads”. 
+### Create it by shell script and attach “efs” “ELSATIC FILE STOREGE” to each of the new server for word press new ec2 get generated when AUTOSCALING IS happen . (EFS IS COMMNE STOREGE FOR ALL WORD PDRESS SERVERS)
+### 3.4) Auto scale with the rules – 1) scale up cpu utilization is more than 50%     = cpu utilization > 50%
+###		                    	         2)  scale down cpu utilization is less than 30%  = cpu utilization < 30%
+### 4)	DB SUBNETS :  IT should have 1 writer and 1 standby ec2 for db , mysql. Endpoint is used for the worp dress wp-confing.php
+### 5)	Create Domain also we have to use for hosting word press web. By (route53, ssl certificate, hosted zone ) and attach to auto scaling group.
 
 # How to deploy a three-tier architecture in AWS using Terraform?
 
