@@ -1,6 +1,6 @@
 # Requirements  are as follows:
 ### We need to setup the following: 
-### 1.  VPC with two public, two private and two database
+### 1.  VPC with two public, two private and two database subnetes
 ### 2.	Setup one EC2 instance in private subnet. Install Word Press in the location /var/www/html.
 ### 3.	Word Press ec2 with load balancing and should be auto scaling.
 ### 4.	And EFS Drive should be mounted to the machine at location /var/www/html/wp-content/uploads.
@@ -12,7 +12,7 @@
 
 ## STEPS AS PER FOLLOWING:
 
-### 1) VPC – NETWORKING two public, two private, and two databases.
+### 1) VPC – NETWORKING two public, two private, and two database subnetes.
 ### 2) LOAD BALANCER – APPLICATION 
 ### 3) PRIVATE SUBNETS WITH EC2 WITH AUTO SCALING
 ### 3.1) AMI for WordPress auto-scaling is created by using packer and used for the auto-scaling group as AMI.
