@@ -48,9 +48,11 @@ Terraform is an open-source infrastructure as a code (IAC) tool that allows to c
 ### RUN This command in packer directory
     ** "packer build aws-debion.pkr.hcl" **
 
-***Copy the AMI ID FORM CONSOLE use that AMI in following Autoscaling Group Terraform Code  AMI ID ***
+***Copy the AMI ID FORM CONSOLE use that AMI in following Autoscaling Group Terraform Code  AMI ID***
+
 AWS AMI is get created on your AWS account
-or go to the AMI IN AWS EC2 use that AMI in following Autoscaling Group Terraform Code  AMI ID. 
+or go to the AMI IN AWS EC2 on EC2 console go to AMI 
+We have to use that AMI in Autoscaling Launch templete in Terraform Code file name "1.4.1_ec2-wp.tf" AMI ID. 
 
 ### AMI ID LOOK LIKE THIS 
   ** "ami-0814cfadf25b13f" **
