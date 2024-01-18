@@ -23,7 +23,6 @@ error in load balancer ec2 assoication to alb >> unhelty
 
 ##https://josephomara.com/2022/06/24/terraform-to-deploy-wordpress-with-an-alb-asg-and-efs/
 
-
 ## https://www.hiveit.co.uk/techshop/terraform-aws-vpc-example/03-create-an-rds-db-instance
 
 ## *VIPM ## https://harshitdawar.medium.com/launching-a-vpc-with-public-private-subnet-in-aws-using-terraform-191188e6cad4

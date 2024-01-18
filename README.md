@@ -146,3 +146,12 @@ So, now our entire code is ready. We need to run the below steps to create infra
 Once the resource creation finishes you can get the DNS  in AWS ACCOUNT ON ROUTE53 ACCESS THAT "
 
 That’s it now, you have learned how to create various resources in AWS using Terraform.
+
+
+# "REFERRED DOCUMENTATION" :
+
+#### https://josephomara.com/2022/06/24/terraform-to-deploy-wordpress-with-an-alb-asg-and-efs/
+###  https://www.hiveit.co.uk/techshop/terraform-aws-vpc-example/03-create-an-rds-db-instance
+#### VIPM ## https://harshitdawar.medium.com/launching-a-vpc-with-public-private-subnet-in-aws-using-terraform-191188e6cad4
+#### https://medium.com/aws-in-plain-english/terraform-aws-three-tier-architecture-design-d2ed61d7ec4a
+#### https://harshitdawar.medium.com/launching-a-vpc-with-public-private-subnet-in-aws-using-terraform-191188e6cad4
