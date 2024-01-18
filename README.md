@@ -12,17 +12,18 @@
 
 ## STEPS AS PER FOLLOWING:
 
-### 1)	VPC – NETWORKING two public, two private and two databases.
-### 2)	LADBALANCER – APPICATION 
-### 3)	PRIVET SUBNETS WITH EC2 WITH AUTOCASLIG 
-### 3.1) AMI for word press auto scaling is created by using packer and used for auto scaling group as AMI .
-### 3.2) AMI CREATED BY PACKER WITH WORDPRESS : wp-confing.php >> set db name , dbuser , dbpassword , db endpoint , elastic cashes endpoint. By shell script. 
-### 3.3) ALL EC2 will be have “/var/www/html/wp-content/” check it if is not presents “wp-content/uploads”. 
-### Create it by shell script and attach “efs” “ELSATIC FILE STOREGE” to each of the new server for word press new ec2 get generated when AUTOSCALING IS happen . (EFS IS COMMNE STOREGE FOR ALL WORD PDRESS SERVERS)
-### 3.4) Auto scale with the rules – 1) scale up cpu utilization is more than 50%     = cpu utilization > 50%
-###		                    	         2)  scale down cpu utilization is less than 30%  = cpu utilization < 30%
-### 4)	DB SUBNETS :  IT should have 1 writer and 1 standby ec2 for db , mysql. Endpoint is used for the worp dress wp-confing.php
-### 5)	Create Domain also we have to use for hosting word press web. By (route53, ssl certificate, hosted zone ) and attach to auto scaling group.
+### 1) VPC – NETWORKING two public, two private, and two databases.
+### 2) LOAD BALANCER – APPLICATION 
+### 3) PRIVATE SUBNETS WITH EC2 WITH AUTO SCALING
+### 3.1) AMI for WordPress auto-scaling is created by using packer and used for the auto-scaling group as AMI.
+### 3.2) AMI CREATED BY PACKER WITH WORDPRESS: wp-config.php >> set db name, dbuser, dbpassword, db endpoint, elastic caches endpoint. By shell script.
+### 3.3) ALL EC2 will have "/var/www/html/wp-content/"; check if it is not present "wp-content/uploads". Create it by shell script and attach "efs" "ELASTIC FILE STORAGE" to each of the new servers for WordPress. New EC2 gets generated when AUTO SCALING IS happening. (EFS IS COMMON STORAGE FOR ALL WORDPRESS SERVERS)
+### 3.4) Auto scale with the rules – 
+###     1) Scale up CPU utilization is more than 50% = CPU utilization > 50%
+###     2) Scale down CPU utilization is less than 30% = CPU utilization < 30%
+### 4) DB SUBNETS: It should have 1 writer and 1 standby EC2 for the DB, MySQL. The endpoint is used for the WordPress wp-config.php.
+### 5) Create a Domain; also, we have to use it for hosting WordPress web. By (Route53, SSL certificate, hosted zone) and attach it to the auto-scaling group.
+
 
 # How to deploy a three-tier architecture in AWS using Terraform?
 
