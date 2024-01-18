@@ -123,7 +123,7 @@ So, now our entire code is ready. We need to run the below steps to create infra
 
 ===========================================================================
 
-** Step 5:- Verify DNS is workig ON incognito mode"**
+**Step 5:- Verify DNS is workig ON incognito mode"**
 
 Once the resource creation finishes you can get the DNS  in AWS ACCOUNT ON ROUTE53 ACCESS THAT "
 
