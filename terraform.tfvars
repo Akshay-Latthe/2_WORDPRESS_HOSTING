@@ -21,8 +21,8 @@ db_instance         = "db.t2.micro"
 ### efs mount location
 efs_location = "/var/www/html/wp-content/uploads"
 # route 53 and ssl cirtificate
-web_domain_name = "wp.dev.devopsinabox.aaic.cc"
-hosted_zone_id  = "Z01994033J10BU3FTUUN3"
+web_domain_name = "wp.dev.devop***.***.cc"
+hosted_zone_id  = "Z***********FTUUN3"
 root_password   = "Password"
 user            = "wordpress"
 password        = "Password"
